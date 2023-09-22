@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForzaDynamicMapApi", "ForzaDynamicMapApi.csproj", "{7E01C5E9-F883-43D2-8E45-EB862A824DEA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E01C5E9-F883-43D2-8E45-EB862A824DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E01C5E9-F883-43D2-8E45-EB862A824DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E01C5E9-F883-43D2-8E45-EB862A824DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E01C5E9-F883-43D2-8E45-EB862A824DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {97E20716-33C6-47E1-8DCB-23CEC1724379}
+	EndGlobalSection
+EndGlobal
