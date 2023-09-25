@@ -8,7 +8,7 @@ namespace ForzaDynamicMapApi.Controllers;
 [ApiController]
 public class PlayersController : ControllerBase
 {
-    [HttpPut("")]
+    [HttpPost("")]
     public async Task<ActionResult> SetPlayerName([FromServices] PlayersService playersStore, [FromBody] SetPlayerNameDTO playerNameDTO)
     {
         await playersStore.SetName(playerNameDTO.PlayerIp, playerNameDTO.PlayerName);
