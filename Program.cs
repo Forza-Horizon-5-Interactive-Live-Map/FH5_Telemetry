@@ -1,3 +1,5 @@
+using ForzaDynamicMapApi.Errors;
+using ForzaDynamicMapApi.Helper;
 using ForzaDynamicMapApi.Services;
 using ForzaDynamicMapApi.Settings;
 
@@ -11,7 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-//builder.Services.AddSignalR();
+builder.Services.AddSignalR();
 AddCORS();
 
 
@@ -21,8 +23,15 @@ builder.Services.AddSingleton<MessagesService>();
 builder.Services.AddSingleton<PlayersService>();
 builder.Services.AddSingleton<TelemetryListener>();
 builder.Services.AddSingleton<CarNamesService>();
+builder.Services.AddSingleton<MapUpdatesService>();
+builder.Services.AddHostedService(provider => provider.GetRequiredService<MapUpdatesService>());
+
+var logger = new TextLogger();
+builder.Services.AddSingleton<ILogger>(logger);
 
 var app = builder.Build();
+
+app.ConfigureExceptionHandler(logger);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -44,8 +53,9 @@ app.UseRouting();
 app.UseCors();
 
 app.UseAuthorization();
-
 app.MapControllers();
+app.MapHub<MapUpdatesHub>("/mapUpdatesHub");
+
 
 var listener = app.Services.GetService<TelemetryListener>();
 listener!.StartListener();

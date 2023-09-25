@@ -22,7 +22,7 @@ public class CarNamesService
         {
             if (string.IsNullOrWhiteSpace(line))
                 continue;
-    
+
             var infos = line.Split('\t');
             CarInfo info = new CarInfo
             {
@@ -40,8 +40,8 @@ public class CarNamesService
 
     public CarInfo GetCarInfo(int carOrdinal)
     {
-        if (_carInfos.TryGetValue(carOrdinal, out CarInfo info))
-            return info;
+        if (_carInfos.TryGetValue(carOrdinal, out CarInfo? info))
+            return info!;
 
         return new CarInfo()
         {
