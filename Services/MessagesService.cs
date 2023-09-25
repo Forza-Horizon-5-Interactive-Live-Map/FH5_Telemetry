@@ -13,8 +13,13 @@ public class MessagesService
 
     public void AddMessage(Message message)
     {
-        lastMessages.AddOrUpdate(message.Ip, message, (ip, m) => message);
-
+        lastMessages.AddOrUpdate(message.Ip, message, (ip, m) => message.IsRaceOn == 1 ? message : m);
+        if (message.IsRaceOn == 0)
+        {
+            lastMessages[message.Ip].PlayerName = message.PlayerName;
+            lastMessages[message.Ip].ReceivedTime = DateTime.UtcNow;
+            lastMessages[message.Ip].IsRaceOn = 0;
+        }
         ClearOldMessages();
     }
     public void ClearOldMessages()

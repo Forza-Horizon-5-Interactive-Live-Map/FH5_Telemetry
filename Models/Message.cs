@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ForzaDynamicMapApi.Models;
+﻿namespace ForzaDynamicMapApi.Models;
 
 public enum EGame
 {
@@ -31,7 +27,7 @@ public class Message
 {
     public string Ip { get; set; }
     public string PlayerName { get; set; }
-    public DateTime ReceivedTime { get; }
+    public DateTime ReceivedTime { get; set; }
 
     #region Telemetry Property
 
