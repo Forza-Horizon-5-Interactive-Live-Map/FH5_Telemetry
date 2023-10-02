@@ -1,23 +1,12 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 # docker build --platform linux/arm64  --file Dockerfile --tag dercraker0/forza5-telemetry:dev --push .
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
-
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-COPY ["ForzaLiveTelemety.csproj", "."]
-RUN dotnet restore "./ForzaLiveTelemety.csproj"
-COPY . .
-WORKDIR "/src/."
-RUN dotnet build "ForzaLiveTelemety.csproj" -c Release -o /app/build
-
-FROM build AS publish
-RUN dotnet publish "ForzaLiveTelemety.csproj" -c Release -o /app/publish /p:UseAppHost=false
+EXPOSE 5690
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY /ForzaLiveTelemety/bin/Release/net7.0/publish .
 ENTRYPOINT ["dotnet", "ForzaLiveTelemety.dll"]
