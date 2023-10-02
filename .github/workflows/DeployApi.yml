@@ -55,6 +55,11 @@ jobs:
       - name: Publish Project
         run: dotnet publish ForzaLiveTelemety.csproj -c Release --no-build
 
+      - name: display current folder
+        shell: bash
+        run: |
+          ls
+
       # - name: Build and push DockerImage
       #   run: docker build --platform linux/arm64  --file ./Dockerfile --tag dercraker0/react-map:dev --push .
 
