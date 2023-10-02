@@ -41,6 +41,11 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2.4.1
 
+      - name: display current folder
+        shell: bash
+        run: |
+          ls
+
       - name: Restore Project
         run: dotnet restore ForzaLiveTelemety/ForzaLiveTelemety.csproj
         
