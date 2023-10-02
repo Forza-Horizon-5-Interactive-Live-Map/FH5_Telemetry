@@ -76,7 +76,7 @@ jobs:
           ls
       - name: display current folder
         shell: bash
-        working-directory: bin/Release/net7.0/Publish
+        working-directory: bin/Release/net7.0/publish
         run: |
           ls
       - name: display current location
