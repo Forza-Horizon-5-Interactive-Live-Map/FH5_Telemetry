@@ -2,7 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
-COPY "/bin/Release/net7.0/publish/" .
+COPY ./out .
 EXPOSE 80
 EXPOSE 443
 EXPOSE 5690

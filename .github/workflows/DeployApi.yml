@@ -53,7 +53,7 @@ jobs:
         run: dotnet build ForzaLiveTelemety.csproj -c Release --no-restore
         
       - name: Publish Project
-        run: dotnet publish ForzaLiveTelemety.csproj -c Release --no-build
+        run: dotnet publish ForzaLiveTelemety.csproj -c Release -o out --no-build 
 
       - name: display current folder
         shell: bash
