@@ -8,5 +8,5 @@ EXPOSE 5690
 
 FROM base AS final
 WORKDIR /app
-COPY /ForzaLiveTelemety/bin/Release/net7.0/publish .
+COPY /bin/Release/net7.0/publish .
 ENTRYPOINT ["dotnet", "ForzaLiveTelemety.dll"]

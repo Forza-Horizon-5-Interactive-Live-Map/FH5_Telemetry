@@ -12,7 +12,7 @@ env:
 jobs:
 
   dockerize_app:
-    name: Setup Agent > Build Vite App > Build Docker Image > Push Docker Image
+    name: Setup Agent > Restor App > Build App > Publish App > Push Docker Image
     runs-on: ubuntu-latest
 
     steps:
