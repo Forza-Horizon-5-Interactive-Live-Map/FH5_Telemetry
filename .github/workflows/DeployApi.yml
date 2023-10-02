@@ -59,6 +59,16 @@ jobs:
         shell: bash
         run: |
           ls
+      - name: display current folder
+        working-directory: bin
+        shell: bash
+        run: |
+          ls
+      - name: display current folder
+        shell: bash
+        working-directory: bin/Release
+        run: |
+          ls
 
       # - name: Build and push DockerImage
       #   run: docker build --platform linux/arm64  --file ./Dockerfile --tag dercraker0/react-map:dev --push .
