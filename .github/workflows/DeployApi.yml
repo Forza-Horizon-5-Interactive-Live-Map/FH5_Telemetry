@@ -60,25 +60,30 @@ jobs:
         run: |
           ls
       - name: display current folder
-        working-directory: bin
+        working-directory: out
         shell: bash
         run: |
           ls
-      - name: display current folder
-        shell: bash
-        working-directory: bin/Release
-        run: |
-          ls
-      - name: display current folder
-        shell: bash
-        working-directory: bin/Release/net7.0
-        run: |
-          ls
-      - name: display current folder
-        shell: bash
-        working-directory: bin/Release/net7.0/publish
-        run: |
-          ls
+      # - name: display current folder
+      #   working-directory: bin
+      #   shell: bash
+      #   run: |
+      #     ls
+      # - name: display current folder
+      #   shell: bash
+      #   working-directory: bin/Release
+      #   run: |
+      #     ls
+      # - name: display current folder
+      #   shell: bash
+      #   working-directory: bin/Release/net7.0
+      #   run: |
+      #     ls
+      # - name: display current folder
+      #   shell: bash
+      #   working-directory: bin/Release/net7.0/publish
+      #   run: |
+      #     ls
       - name: display current location
         shell: bash
         run: |
