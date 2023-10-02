@@ -55,40 +55,6 @@ jobs:
       - name: Publish Project
         run: dotnet publish ForzaLiveTelemety.csproj -c Release -o out --no-build 
 
-      - name: display current folder
-        shell: bash
-        run: |
-          ls
-      - name: display current folder
-        working-directory: out
-        shell: bash
-        run: |
-          ls
-      # - name: display current folder
-      #   working-directory: bin
-      #   shell: bash
-      #   run: |
-      #     ls
-      # - name: display current folder
-      #   shell: bash
-      #   working-directory: bin/Release
-      #   run: |
-      #     ls
-      # - name: display current folder
-      #   shell: bash
-      #   working-directory: bin/Release/net7.0
-      #   run: |
-      #     ls
-      # - name: display current folder
-      #   shell: bash
-      #   working-directory: bin/Release/net7.0/publish
-      #   run: |
-      #     ls
-      - name: display current location
-        shell: bash
-        run: |
-          pwd
-
       # - name: Build and push DockerImage
       #   run: docker build --platform linux/arm64  --file ./Dockerfile --tag dercraker0/react-map:dev --push .
 
@@ -98,7 +64,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          platforms: linux/arm64
+          platforms: linux/ARM64,
           tags: ${{secrets.DOCKER_USER}}/forza5-telemetry:dev
         
   # deploy:
