@@ -2,7 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
-COPY "/home/runner/work/FH5_Telemetry/FH5_Telemetry/bin/Release/net7.0/publish/" .
+COPY "/bin/Release/net7.0/publish/" .
 EXPOSE 80
 EXPOSE 443
 EXPOSE 5690
