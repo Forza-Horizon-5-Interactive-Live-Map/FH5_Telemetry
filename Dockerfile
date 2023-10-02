@@ -8,5 +8,5 @@ EXPOSE 5690
 
 FROM base AS final
 WORKDIR /app
-COPY FH5_Telemetry/FH5_Telemetry/bin/Release/net7.0/publish .
+COPY bin/Release/net7.0/publish/ .
 ENTRYPOINT ["dotnet", "ForzaLiveTelemety.dll"]
