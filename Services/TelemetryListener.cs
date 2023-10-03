@@ -24,7 +24,7 @@ public class TelemetryListener
         _logger = logger;
 
         _udpListener = new UdpClient(_port);
-        _udpListener.AllowNatTraversal(true);
+        // _udpListener.AllowNatTraversal(true);
         _isRunning = false;
     }
 
