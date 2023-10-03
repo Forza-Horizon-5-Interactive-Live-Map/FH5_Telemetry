@@ -1,9 +1,10 @@
 using ForzaDynamicMapApi.Errors;
-using ForzaDynamicMapApi.Helper;
 using ForzaDynamicMapApi.Services;
 using ForzaDynamicMapApi.Settings;
+using ForzaLiveTelemety.Helper;
+using ForzaLiveTelemety.Services;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -12,10 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddSignalR();
 AddCORS();
-
 
 builder.Services.AddSingleton(builder.Configuration.GetSection("Settings").Get<Settings>());
 
@@ -26,10 +25,10 @@ builder.Services.AddSingleton<CarNamesService>();
 builder.Services.AddSingleton<MapUpdatesService>();
 builder.Services.AddHostedService(provider => provider.GetRequiredService<MapUpdatesService>());
 
-var logger = new TextLogger();
+TextLogger logger = new();
 builder.Services.AddSingleton<ILogger>(logger);
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 app.ConfigureExceptionHandler(logger);
 
@@ -56,14 +55,12 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHub<MapUpdatesHub>("/mapUpdatesHub");
 
-
-var listener = app.Services.GetService<TelemetryListener>();
+TelemetryListener? listener = app.Services.GetService<TelemetryListener>();
 listener!.StartListener();
-var carNamesService = app.Services.GetService<CarNamesService>();
+CarNamesService? carNamesService = app.Services.GetService<CarNamesService>();
 await carNamesService!.LoadInfos();
 
 app.Run();
-
 
 void AddCORS()
 {
