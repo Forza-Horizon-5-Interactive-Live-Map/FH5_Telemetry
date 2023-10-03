@@ -1,8 +1,10 @@
 ﻿using ForzaDynamicMapApi.Models;
+using ForzaDynamicMapApi.Services;
+using ForzaDynamicMapApi.Settings;
 using System.Net;
 using System.Net.Sockets;
 
-namespace ForzaDynamicMapApi.Services;
+namespace ForzaLiveTelemety.Services;
 
 public class TelemetryListener
 {
@@ -14,7 +16,7 @@ public class TelemetryListener
     private Task _listenerTask;
     private bool _isRunning;
 
-    public TelemetryListener(Settings.Settings settings, PlayersService playerStore, MessagesService messageStore, ILogger logger)
+    public TelemetryListener(Settings settings, PlayersService playerStore, MessagesService messageStore, ILogger logger)
     {
         _port = settings.Port;
         _playerStore = playerStore;
@@ -22,7 +24,7 @@ public class TelemetryListener
         _logger = logger;
 
         _udpListener = new UdpClient(_port);
-        //_udpListener.AllowNatTraversal(true);
+        _udpListener.AllowNatTraversal(true);
         _isRunning = false;
     }
 
@@ -30,7 +32,7 @@ public class TelemetryListener
     {
         _listenerTask = Task.Run(async () =>
         {
-            var groupEndpoint = new IPEndPoint(IPAddress.Any, _port);
+            IPEndPoint groupEndpoint = new(IPAddress.Any, _port);
             _isRunning = true;
             try
             {
@@ -52,15 +54,12 @@ public class TelemetryListener
         });
     }
 
-    public void StopListener()
-    {
-        _isRunning = false;
-    }
+    public void StopListener() => _isRunning = false;
 
     private async Task SaveMessage(string playerIp, byte[] data)
     {
-        var name = await _playerStore.GetName(playerIp);
-        var message = new Message(playerIp, name, data);
+        string name = await _playerStore.GetName(playerIp);
+        Message message = new(playerIp, name, data);
 
         _messageStore.AddMessage(message);
     }
