@@ -1,7 +1,6 @@
 ﻿using ForzaDynamicMapApi.Services;
 using ForzaLiveTelemety.DTO.Messages;
 using ForzaLiveTelemety.Mappers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForzaDynamicMapApi.Controllers;
@@ -21,5 +20,11 @@ public class MessagesController : ControllerBase
             var info = carNamesService.GetCarInfo(m.CarOrdinal);
             return m.ToDTO(info);
         }).ToList();
+    }
+    [HttpGet("testbankal")]
+    public async Task<IActionResult> getip()
+    {
+        Console.WriteLine(HttpContext.Connection.RemoteIpAddress);
+        return Ok(HttpContext.Connection.RemoteIpAddress.ToString());
     }
 }
