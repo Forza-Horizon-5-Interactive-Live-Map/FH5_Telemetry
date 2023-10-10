@@ -1,11 +1,11 @@
 ﻿using ForzaDynamicMapApi.Helper;
 
-namespace ForzaDynamicMapApi.DTO.Messages;
+namespace ForzaLiveTelemety.DTO.Messages;
 
 public class MessageDTO
 {
-    public string Ip { get; set; }
-    public string PlayerName { get; set; }
+    public Guid Id { get; set; }
+    public required string PlayerName { get; set; }
     public bool IsPaused { get; set; }
     public bool IsDisconnecting { get; set; }
     public float PosX { get; set; }
@@ -16,8 +16,8 @@ public class MessageDTO
     public string PosZDisplay => DisplayMethods.PrintFloat(PosZ, "00000.00", true);
 
     // computed position for map
-    public float Lat => Constantes.LocalisationMapCenterLat + (PosZ / Constantes.LocalisationRatio);
-    public float Lng => Constantes.LocalisationMapCenterLng + (PosX / Constantes.LocalisationRatio);
+    public float Lat => Constantes.LocalisationMapCenterLat + PosZ / Constantes.LocalisationRatio;
+    public float Lng => Constantes.LocalisationMapCenterLng + PosX / Constantes.LocalisationRatio;
 
     // car data
     public float Speed { get; set; }
@@ -28,7 +28,7 @@ public class MessageDTO
     public float Power { get; set; }
     public float PowerKw => Power / 1000;
     public string PowerKwDisplay => $"{DisplayMethods.PrintFloat(PowerKw, "0", false)} kw";
-    public float PowerCh => (Power / 1000) * 1.358f;
+    public float PowerCh => Power / 1000 * 1.358f;
     public string PowerChDisplay => $"{DisplayMethods.PrintFloat(PowerCh, "0", false)} ch";
     public float TorqueNm { get; set; }
     public string TorqueNmDisplay => $"{DisplayMethods.PrintFloat(TorqueNm, "0", false)} nm";
@@ -38,17 +38,17 @@ public class MessageDTO
     public int Gear { get; set; }
 
     // car
-    public string CarClass { get; set; }
+    public required string CarClass { get; set; }
     public int CarIndex { get; set; }
     public string CarIndexDisplay => $"{CarClass} {CarIndex}";
-    public string CarDrivetrain { get; set; }
+    public required string CarDrivetrain { get; set; }
     public int CylindersCount { get; set; }
 
     // car model
-    public string Model { get; set; }
-    public string Maker { get; set; }
+    public required string Model { get; set; }
+    public required string Maker { get; set; }
     public int Year { get; set; }
-    public string Group { get; set; }
+    public required string Group { get; set; }
     public int CarOrdinal { get; set; }
     public int Weight { get; set; }
 }

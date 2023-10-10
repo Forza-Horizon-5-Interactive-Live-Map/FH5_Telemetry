@@ -1,7 +1,7 @@
-﻿using ForzaDynamicMapApi.DTO.Messages;
-using ForzaDynamicMapApi.Models;
+﻿using ForzaDynamicMapApi.Models;
+using ForzaLiveTelemety.DTO.Messages;
 
-namespace ForzaDynamicMapApi.Mappers;
+namespace ForzaLiveTelemety.Mappers;
 
 public static class MessagesMapper
 {
@@ -9,7 +9,7 @@ public static class MessagesMapper
     {
         return new MessageDTO()
         {
-            Ip = message.Ip,
+            Id = new Guid(),
             PlayerName = message.PlayerName,
             IsPaused = message.IsRaceOn == 0,
             IsDisconnecting = DateTime.UtcNow - message.ReceivedTime > TimeSpan.FromSeconds(5),
