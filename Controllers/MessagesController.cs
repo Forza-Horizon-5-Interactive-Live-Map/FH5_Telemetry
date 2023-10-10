@@ -1,6 +1,6 @@
-﻿using ForzaDynamicMapApi.DTO.Messages;
-using ForzaDynamicMapApi.Mappers;
-using ForzaDynamicMapApi.Services;
+﻿using ForzaDynamicMapApi.Services;
+using ForzaLiveTelemety.DTO.Messages;
+using ForzaLiveTelemety.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

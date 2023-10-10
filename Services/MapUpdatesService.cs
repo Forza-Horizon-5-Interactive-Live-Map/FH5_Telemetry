@@ -1,4 +1,4 @@
-﻿using ForzaDynamicMapApi.Mappers;
+﻿using ForzaLiveTelemety.Mappers;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ForzaDynamicMapApi.Services;
