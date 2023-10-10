@@ -44,7 +44,7 @@ public class TelemetryListener
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
+                _logger.LogError("TelemetryListener error : {Error}", e.ToString());
 
             }
             finally

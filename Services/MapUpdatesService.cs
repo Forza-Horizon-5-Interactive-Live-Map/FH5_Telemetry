@@ -46,19 +46,11 @@ public class MapUpdatesService : BackgroundService
                     await _mapUpdatesHub.Clients.All.SendAsync("MapUpdate", messagesDTOs);
 
                     _executionCount++;
-                    _logger.LogInformation(
-                        $"Executed PeriodicHostedService - Count: {_executionCount}");
-                }
-                else
-                {
-                    _logger.LogInformation(
-                        "Skipped PeriodicHostedService");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogInformation(
-                    $"Failed to execute PeriodicHostedService with exception message {ex.Message}. Good luck next round!");
+                _logger.LogError("Failed to execute PeriodicHostedService with exception message {Message}. Good luck next round!", ex.Message);
             }
         }
     }

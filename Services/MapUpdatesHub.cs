@@ -16,8 +16,9 @@ public class MapUpdatesHub : Hub
         await Groups.AddToGroupAsync(Context.ConnectionId, "MapUpdates");
     }
 
-    public override async Task OnDisconnectedAsync(Exception? exception)
+    public override Task OnDisconnectedAsync(Exception? exception)
     {
-        _logger.LogInformation("Client disconnected. " + exception?.Message);
+        _logger.LogInformation("Client disconnected : {Client}", exception?.Message);
+        return Task.CompletedTask;
     }
 }

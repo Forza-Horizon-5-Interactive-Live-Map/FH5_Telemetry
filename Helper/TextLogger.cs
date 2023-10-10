@@ -6,5 +6,5 @@ public class TextLogger : ILogger
 
     public bool IsEnabled(LogLevel logLevel) => (int)logLevel > (int)LogLevel.Information;
 
-    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter) => Console.WriteLine($"{DateTime.Now:u} : {logLevel} - {exception?.Message}");
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter) => Console.WriteLine($"{DateTime.Now:u} : {logLevel} - {formatter.Invoke(state, null)} {exception?.Message}");
 }
