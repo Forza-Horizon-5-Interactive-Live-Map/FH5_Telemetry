@@ -5,7 +5,7 @@ namespace ForzaLiveTelemety.DTO.Messages;
 public class MessageDTO
 {
     public Guid Id { get; set; }
-    public required string PlayerName { get; set; }
+    public string PlayerName { get; set; }
     public bool IsPaused { get; set; }
     public bool IsDisconnecting { get; set; }
     public float PosX { get; set; }
@@ -16,8 +16,8 @@ public class MessageDTO
     public string PosZDisplay => DisplayMethods.PrintFloat(PosZ, "00000.00", true);
 
     // computed position for map
-    public float Lat => Constantes.LocalisationMapCenterLat + PosZ / Constantes.LocalisationRatio;
-    public float Lng => Constantes.LocalisationMapCenterLng + PosX / Constantes.LocalisationRatio;
+    public float Lat => Constantes.LocalisationMapCenterLat + (PosZ / Constantes.LocalisationRatio);
+    public float Lng => Constantes.LocalisationMapCenterLng + (PosX / Constantes.LocalisationRatio);
 
     // car data
     public float Speed { get; set; }
@@ -38,17 +38,17 @@ public class MessageDTO
     public int Gear { get; set; }
 
     // car
-    public required string CarClass { get; set; }
+    public string CarClass { get; set; }
     public int CarIndex { get; set; }
     public string CarIndexDisplay => $"{CarClass} {CarIndex}";
-    public required string CarDrivetrain { get; set; }
+    public string CarDrivetrain { get; set; }
     public int CylindersCount { get; set; }
 
     // car model
-    public required string Model { get; set; }
-    public required string Maker { get; set; }
+    public string Model { get; set; }
+    public string Maker { get; set; }
     public int Year { get; set; }
-    public required string Group { get; set; }
+    public string Group { get; set; }
     public int CarOrdinal { get; set; }
     public int Weight { get; set; }
 }
