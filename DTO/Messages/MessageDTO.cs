@@ -15,6 +15,13 @@ public class MessageDTO
     public float PosZ { get; set; }
     public string PosZDisplay => DisplayMethods.PrintFloat(PosZ, "00000.00", true);
 
+    public float GAcceleration { get; set; }
+    public string GAccelerationDisplay => $"{DisplayMethods.PrintFloat(GAcceleration, "0.0", false)} G";
+
+    public float Yaw { get; set; }
+    public float Pitch { get; set; }
+    public float Roll { get; set; }
+
     // computed position for map
     public float Lat => Constantes.LocalisationMapCenterLat + (PosZ / Constantes.LocalisationRatio);
     public float Lng => Constantes.LocalisationMapCenterLng + (PosX / Constantes.LocalisationRatio);
