@@ -4,6 +4,7 @@ namespace ForzaLiveTelemety.DTO.Messages;
 
 public class MessageDTO
 {
+    public string Ip { get; set; }
     public Guid Id { get; set; }
     public string PlayerName { get; set; }
     public bool IsPaused { get; set; }
