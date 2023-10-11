@@ -21,9 +21,4 @@ public class MessagesController : ControllerBase
             return m.ToDTO(info);
         }).ToList();
     }
-    [HttpGet("testbankal")]
-    public async Task<IActionResult> getip()
-    {
-        return Ok($"local : {HttpContext.Connection.LocalIpAddress.ToString()}:{HttpContext.Connection.LocalPort.ToString()} \nRemote : {HttpContext.Connection.RemoteIpAddress.ToString()}:{HttpContext.Connection.RemotePort.ToString()}");
-    }
 }
