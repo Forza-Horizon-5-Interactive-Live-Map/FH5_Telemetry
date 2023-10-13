@@ -9,7 +9,6 @@ public static class MessagesMapper
     {
         return new MessageDTO()
         {
-            Ip = message.Ip,
             Id = new Guid(),
             PlayerName = message.PlayerName,
             IsPaused = message.IsRaceOn == 0,
