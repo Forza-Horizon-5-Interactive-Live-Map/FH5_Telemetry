@@ -4,19 +4,23 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForzaLiveTelemetry.EFCore;
-public class UserContext : IdentityDbContext<User, IdentityRole, string>
+public class UserContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
     public UserContext() { }
 
-    public UserContext(DbContextOptions<UserContext> options) : base(options) { }
+    public UserContext(DbContextOptions<UserContext> options) : base(options)
+    {
+        Database.Migrate();
+    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
         builder.Entity<User>(u =>
         {
-            u.ToTable(name: "User", u => u.IsTemporal())
-                .HasKey(u => u.Id);
+            u.HasKey(u => u.Id);
+
         });
     }
 

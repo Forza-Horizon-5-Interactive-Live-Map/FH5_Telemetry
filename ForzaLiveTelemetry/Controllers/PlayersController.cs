@@ -4,6 +4,7 @@ using ForzaLiveTelemetry.EFCore;
 using ForzaLiveTelemetry.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ForzaLiveTelemetry.Controllers;
 
@@ -13,11 +14,11 @@ public class PlayersController : ControllerBase
 {
     private readonly UserContext _context;
     private readonly UserManager<User> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
     private readonly PlayersService _playersStore;
 
     public PlayersController(UserContext context, UserManager<User> userManager, RoleManager<
-        IdentityRole> roleManager, PlayersService playersStore)
+        IdentityRole<Guid>> roleManager, PlayersService playersStore)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -36,22 +37,31 @@ public class PlayersController : ControllerBase
     //    return Ok(resultMessage);
     //}
 
+
     [HttpPost("")]
     public async Task<ActionResult> SetPlayerName([FromBody] SetUserNameDTO playerNameDTO)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        User isUserExist = await _userManager.FindByNameAsync(playerNameDTO.PlayerName);
-        if (isUserExist is not null)
-            return BadRequest("L'utilisateur existe déjà");
+        if (playerNameDTO.PlayerIp == "82.67.17.53")
+            playerNameDTO.PlayerIp = "192.168.1.254";
 
-        User newUser = new()
+        User? user = await _userManager.Users.FirstOrDefaultAsync(p => p.IPv4 == playerNameDTO.PlayerIp);
+
+        if (user is not null)
         {
-            UserName = playerNameDTO.PlayerName,
-            IPv4 = playerNameDTO.PlayerIp
-        };
-
-        await _userManager.CreateAsync(newUser);
+            user.UserName = playerNameDTO.PlayerName;
+            await _userManager.UpdateAsync(user);
+        }
+        else
+        {
+            User newUser = new()
+            {
+                UserName = playerNameDTO.PlayerName,
+                IPv4 = playerNameDTO.PlayerIp
+            };
+            await _userManager.CreateAsync(newUser);
+        }
         return Ok();
     }
 
@@ -60,10 +70,10 @@ public class PlayersController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        User isUserExist = await _userManager.FindByNameAsync(playerName);
-        if (isUserExist is not null)
+        User? user = await _userManager.FindByNameAsync(playerName);
+        if (user is not null)
             return BadRequest("L'utilisateur existe déjà");
         else
-            return isUserExist;
+            return user;
     }
 }

@@ -25,11 +25,11 @@ builder.Services.ConfigureIdentity();
 WebApplication app = builder.Build();
 
 app.ConfigureExceptionHandler(logger);
+app.Services.ApplyMigration();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.Services.ConfigureDatabase();
     app.UseSwagger();
     app.UseSwaggerUI(s =>
     {

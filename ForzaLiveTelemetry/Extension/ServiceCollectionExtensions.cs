@@ -47,7 +47,7 @@ public static class ServiceCollectionExtensions
     }
     public static void ConfigureIdentity(this IServiceCollection services)
     {
-        services.AddIdentity<User, IdentityRole>(options =>
+        services.AddIdentity<User, IdentityRole<Guid>>(options =>
         {
             options.SignIn.RequireConfirmedAccount = false;
 
@@ -73,7 +73,7 @@ public static class ServiceCollectionExtensions
             options.User.RequireUniqueEmail = false;
         })
         .AddDefaultTokenProviders()
-        .AddRoles<IdentityRole>()
+        .AddRoles<IdentityRole<Guid>>()
         .AddEntityFrameworkStores<UserContext>();
 
 

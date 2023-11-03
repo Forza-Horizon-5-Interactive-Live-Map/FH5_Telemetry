@@ -1,5 +1,5 @@
-﻿using ForzaLiveTelemetry.Domain.Model;
-using ForzaLiveTelemetry.Domain.DTO.Messages;
+﻿using ForzaLiveTelemetry.Domain.DTO.Messages;
+using ForzaLiveTelemetry.Domain.Model;
 
 namespace ForzaLiveTelemetry.Domain.Mapper;
 

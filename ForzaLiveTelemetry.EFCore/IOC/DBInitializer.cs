@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 namespace ForzaLiveTelemetry.EFCore.IOC;
 public class DBInitializer
 {
-    public static async Task<bool> Initialize(UserContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+    public static async Task<bool> Initialize(UserContext context, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
     {
         context.Database.EnsureCreated();
 
@@ -20,7 +20,7 @@ public class DBInitializer
         {
             if (!await roleManager.RoleExistsAsync(role))
             {
-                IdentityResult resultAddRole = await roleManager.CreateAsync(new IdentityRole(role));
+                IdentityResult resultAddRole = await roleManager.CreateAsync(new IdentityRole<Guid>(role));
                 if (!resultAddRole.Succeeded)
                     throw new ApplicationException("Adding role '" + role + "' failed with error(s): " + resultAddRole.Errors);
             }

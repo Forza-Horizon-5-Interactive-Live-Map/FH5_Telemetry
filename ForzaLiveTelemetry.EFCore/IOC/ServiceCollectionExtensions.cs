@@ -9,11 +9,12 @@ public static class ServiceCollectionExtensions
     {
         services.AddDbContext<UserContext>(options =>
             options.UseSqlServer(
-                configuration.GetConnectionString("LiveMapSQL"),
-                x => x.MigrationsAssembly(typeof(UserContext).Assembly.FullName)));
+                configuration.GetConnectionString("LiveMapSQL")
+                //x => x.MigrationsAssembly(typeof(UserContext).Assembly.FullName)
+                ), ServiceLifetime.Scoped);
     }
 
-    public static void ConfigureDatabase(this IServiceProvider services)
+    public static void ApplyMigration(this IServiceProvider services)
     {
         using (IServiceScope serviceScope = services.CreateScope())
         {

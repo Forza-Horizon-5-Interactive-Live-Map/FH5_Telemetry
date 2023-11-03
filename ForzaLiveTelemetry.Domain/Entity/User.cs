@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 namespace ForzaLiveTelemetry.Domain.Entity;
-public class User : IdentityUser
+public class User : IdentityUser<Guid>
 {
     public User()
     {
