@@ -27,8 +27,8 @@ WebApplication app = builder.Build();
 app.ConfigureExceptionHandler(logger);
 app.Services.ApplyMigration();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+bool displaySwagger = builder.Configuration.GetValue<bool>("DisplaySwagger");
+if (displaySwagger)
 {
     app.UseSwagger();
     app.UseSwaggerUI(s =>
