@@ -50,7 +50,7 @@ jobs:
         run: dotnet publish **/ForzaLiveTelemetry.csproj -c Release -o out --no-build
 
       - name: Build and push DockerImage
-        run: docker build --platform linux/arm64 -e CONNECTION_STRING='${{secrets.CONNECTION_STRING}}' --file ./ForzaLiveTelemetry/Dockerfile.production --tag ${{secrets.PRIVATEREGISTRY_URL}}/forza5-telemetry:dev --push .
+        run: docker build --platform linux/arm64 --build-arg CONNECTION_STRING='${{secrets.CONNECTION_STRING}}' --file ./ForzaLiveTelemetry/Dockerfile.production --tag ${{secrets.PRIVATEREGISTRY_URL}}/forza5-telemetry:dev --push .
 
   deploy:
     name: Call portainer to deploy new versions of Docker
