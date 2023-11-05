@@ -8,7 +8,7 @@ public class User : IdentityUser<Guid>
         CreatedAt = DateTime.UtcNow;
         LastLogged = DateTime.UtcNow;
     }
-    public string? IPv4 { get; set; }
+    public string IPv4 { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime LastLogged { get; set; }
 }

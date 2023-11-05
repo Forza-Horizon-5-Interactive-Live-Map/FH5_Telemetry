@@ -1,6 +1,7 @@
 ﻿using ForzaLiveTelemetry.Domain.DTO.User;
 using ForzaLiveTelemetry.Domain.Entity;
 using ForzaLiveTelemetry.EFCore;
+using ForzaLiveTelemetry.EFCore.IOC;
 using ForzaLiveTelemetry.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,16 +27,15 @@ public class PlayersController : ControllerBase
         _playersStore = playersStore ?? throw new ArgumentNullException(nameof(playersStore));
     }
 
-    //[AllowAnonymous]
-    //[HttpPost]
-    //[Route("Initialize")]
-    //public async Task<IActionResult> Initialize()
-    //{
-    //    bool result = await DBInitializer.Initialize(_context, _userManager, _roleManager);
-    //    string resultMessage = $"Initialisation DB : {(result ? "Succès" : "DB existe déja")}";
+    [HttpPost]
+    [Route("Initialize")]
+    public async Task<IActionResult> Initialize()
+    {
+        bool result = await DBInitializer.Initialize(_context, _userManager, _roleManager);
+        string resultMessage = $"Initialisation DB : {(result ? "Succès" : "DB existe déja")}";
 
-    //    return Ok(resultMessage);
-    //}
+        return Ok(resultMessage);
+    }
 
 
     [HttpPost("")]
@@ -47,11 +47,11 @@ public class PlayersController : ControllerBase
             playerNameDTO.PlayerIp = "192.168.1.254";
 
         User? user = await _userManager.Users.FirstOrDefaultAsync(p => p.IPv4 == playerNameDTO.PlayerIp);
-
+        IdentityResult res;
         if (user is not null)
         {
             user.UserName = playerNameDTO.PlayerName;
-            await _userManager.UpdateAsync(user);
+            res = await _userManager.UpdateAsync(user);
         }
         else
         {
@@ -60,19 +60,23 @@ public class PlayersController : ControllerBase
                 UserName = playerNameDTO.PlayerName,
                 IPv4 = playerNameDTO.PlayerIp
             };
-            await _userManager.CreateAsync(newUser);
+            res = await _userManager.CreateAsync(newUser);
         }
-        return Ok();
+
+        if (res.Succeeded)
+            return Ok();
+        else
+            return BadRequest(res.Errors);
     }
 
-    [HttpGet("")]
+    [HttpGet("CheckExistName")]
     public async Task<ActionResult<User>> GetPlayerName([FromQuery] string playerName)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
         User? user = await _userManager.FindByNameAsync(playerName);
         if (user is not null)
-            return BadRequest("L'utilisateur existe déjà");
+            return BadRequest("Le nom d'utilisateur existe déjà");
         else
             return user;
     }

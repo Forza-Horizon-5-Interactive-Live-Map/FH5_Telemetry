@@ -30,6 +30,7 @@ public class DBInitializer
         User admin = new()
         {
             UserName = "Dercraker",
+            IPv4 = "192.168.1.254",
             CreatedAt = DateTime.Now,
         };
 

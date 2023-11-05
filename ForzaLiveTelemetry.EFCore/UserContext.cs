@@ -20,6 +20,7 @@ public class UserContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         builder.Entity<User>(u =>
         {
             u.HasKey(u => u.Id);
+            u.Property(u => u.IPv4).IsRequired(true);
 
         });
     }
