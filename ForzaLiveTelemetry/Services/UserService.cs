@@ -21,8 +21,9 @@ public class UserService
     {
         DbContextOptionsBuilder<UserContext> optionsBuilder = new DbContextOptionsBuilder<UserContext>();
         string? connectionString = _config.GetConnectionString("LiveMapSQL");
+
         if (connectionString == "DOCKER_CONNECTION_STRING")
-            connectionString= Environment.GetEnvironmentVariable("CONNECTION_STRING");
+            connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
         optionsBuilder.UseSqlServer(connectionString);
 
         return optionsBuilder.Options;

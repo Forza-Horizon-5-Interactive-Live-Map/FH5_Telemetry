@@ -34,6 +34,7 @@ public static class ServiceCollectionExtensions
                        .WithOrigins(originsAllowed.ToArray())
                        .WithMethods("PUT", "DELETE", "GET", "OPTIONS", "POST")
                        .AllowAnyHeader()
+                       .AllowCredentials()
                        .Build();
             });
         });
