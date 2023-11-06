@@ -53,7 +53,7 @@ public class MapUpdatesService : BackgroundService
             }
             catch (Exception ex)
             {
-                _logger.LogError("Failed to execute PeriodicHostedService with exception message {Message}. Good luck next round!", ex.Message);
+                _logger.LogError("Failed to execute PeriodicHostedService with exception message : {Message}. Good luck next round!", ex.Message);
             }
         }
     }

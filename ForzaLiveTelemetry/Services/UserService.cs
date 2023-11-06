@@ -20,8 +20,10 @@ public class UserService
     private DbContextOptions<UserContext> GetOptions()
     {
         DbContextOptionsBuilder<UserContext> optionsBuilder = new DbContextOptionsBuilder<UserContext>();
-
-        optionsBuilder.UseSqlServer(_config.GetConnectionString("LiveMapSQL"));
+        string? connectionString = _config.GetConnectionString("LiveMapSQL");
+        if (connectionString == "DOCKER_CONNECTION_STRING")
+            connectionString= Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        optionsBuilder.UseSqlServer(connectionString);
 
         return optionsBuilder.Options;
     }
