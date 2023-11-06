@@ -12,7 +12,7 @@ env:
 jobs:
 
   dockerize_app:
-    name: Setup Agent > Restor App > Build App > Publish App > Push Docker Image
+    name: Setup Agent > Restore App > Build App > Publish App > Push Docker Image
     runs-on: ubuntu-latest
 
     steps:
@@ -37,18 +37,20 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2.4.1
 
+      - run: ls
+        working-directory: ForzaLiveTelemetry/
 
       - name: Restore Project
-        run: dotnet restore ForzaLiveTelemety.csproj
+        run: dotnet restore **/ForzaLiveTelemetry.csproj
         
       - name: Build Project
-        run: dotnet build ForzaLiveTelemety.csproj -c Release --no-restore
+        run: dotnet build **/ForzaLiveTelemetry.csproj -c Release --no-restore
         
       - name: Publish Project
-        run: dotnet publish ForzaLiveTelemety.csproj -c Release -o out --no-build 
+        run: dotnet publish **/ForzaLiveTelemetry.csproj -c Release -o out --no-build
 
       - name: Build and push DockerImage
-        run: docker build --platform linux/arm64  --file ./Dockerfile --tag ${{secrets.PRIVATEREGISTRY_URL}}/forza5-telemetry:dev --push .
+        run: docker build --platform linux/arm64 --file ./ForzaLiveTelemetry/Dockerfile.production --tag ${{secrets.PRIVATEREGISTRY_URL}}/forza5-telemetry:dev --push .
 
   deploy:
     name: Call portainer to deploy new versions of Docker
