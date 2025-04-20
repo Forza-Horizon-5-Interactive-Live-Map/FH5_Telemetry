@@ -64,14 +64,14 @@ public class UserService
             {
                 IPv4 = playerIp,
                 UserName = _faker.Internet.UserName(),
-                LastLogged = DateTime.UtcNow,
+                LastSeen = DateTime.UtcNow,
             };
             await userContext.Users.AddAsync(entity);
             players.TryAdd(playerIp, entity.ToUserDto());
         }
-        else if (entity.LastLogged < DateTime.UtcNow.AddMonths(-1))
+        else if (entity.LastSeen < DateTime.UtcNow.AddMonths(-1))
         {
-            entity.LastLogged = DateTime.UtcNow;
+            entity.LastSeen = DateTime.UtcNow;
         }
         
         await userContext.SaveChangesAsync();

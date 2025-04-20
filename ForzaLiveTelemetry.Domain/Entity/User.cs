@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 namespace ForzaLiveTelemetry.Domain.Entity;
-public class User : IdentityUser<Guid>
+public class User
 {
     public User()
     {
-        CreatedAt = DateTime.UtcNow;
-        LastLogged = DateTime.UtcNow;
+        LastSeen = DateTime.UtcNow;
     }
+
+    public Guid Id { get; set; }
+    public string UserName { get; set; }
     public string IPv4 { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime LastLogged { get; set; }
+    public DateTime LastSeen { get; set; }
 }

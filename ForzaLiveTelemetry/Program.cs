@@ -13,14 +13,12 @@ builder.Services.AddServices(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddLiveMapDb(builder.Configuration);
+builder.Services.AddDbContext(builder.Configuration);
 
 builder.Services.AddSignalR();
 builder.Services.ConfigureCors(builder.Configuration);
 
 TextLogger logger = builder.Services.SetupLogger();
-
-builder.Services.ConfigureIdentity();
 
 WebApplication app = builder.Build();
 
