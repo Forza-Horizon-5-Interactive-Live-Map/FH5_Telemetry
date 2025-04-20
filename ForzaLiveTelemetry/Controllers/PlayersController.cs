@@ -27,17 +27,6 @@ public class PlayersController : ControllerBase
         _playersStore = playersStore ?? throw new ArgumentNullException(nameof(playersStore));
     }
 
-    [HttpPost]
-    [Route("Initialize")]
-    public async Task<IActionResult> Initialize()
-    {
-        bool result = await DBInitializer.Initialize(_context, _userManager, _roleManager);
-        string resultMessage = $"Initialisation DB : {(result ? "Succès" : "DB existe déja")}";
-
-        return Ok(resultMessage);
-    }
-
-
     [HttpPost("")]
     public async Task<ActionResult> SetPlayerName([FromBody] SetUserNameDTO playerNameDTO)
     {

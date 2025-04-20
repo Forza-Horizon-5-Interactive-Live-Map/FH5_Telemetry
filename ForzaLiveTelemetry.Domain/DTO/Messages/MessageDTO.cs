@@ -5,6 +5,7 @@ namespace ForzaLiveTelemetry.Domain.DTO.Messages;
 public class MessageDTO
 {
     public string Id { get; set; }
+    public string Ip { get; set; }
     public string PlayerName { get; set; }
     public bool IsPaused { get; set; }
     public bool IsDisconnecting { get; set; }

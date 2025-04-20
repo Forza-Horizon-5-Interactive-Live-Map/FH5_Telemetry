@@ -4,14 +4,17 @@ using ForzaLiveTelemetry.Domain.Mapper;
 using ForzaLiveTelemetry.EFCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
+using Bogus;
 
 namespace ForzaLiveTelemetry.Services;
 
 public class UserService
 {
     private static DateTime _lastRealGet = DateTime.MinValue;
+    private static ConcurrentDictionary<string, UserDto> users = new();
     private static ConcurrentDictionary<string, UserDto> players = new();
     private readonly IConfiguration _config;
+    private readonly Faker _faker = new Faker();
     public UserService(IConfiguration config)
     {
         _config = config ?? throw new ArgumentNullException(nameof(config));
@@ -49,4 +52,29 @@ public class UserService
 
         return players.Values.ToList();
     }
+    
+    public async Task AddPlayerOrUpdate(string playerIp)
+    {
+
+        using UserContext userContext = new(GetOptions());
+        User entity = userContext.Users.FirstOrDefault(u => u.IPv4 == playerIp);
+        if (entity is null)
+        {
+            entity = new User
+            {
+                IPv4 = playerIp,
+                UserName = _faker.Internet.UserName(),
+                LastLogged = DateTime.UtcNow,
+            };
+            await userContext.Users.AddAsync(entity);
+            players.TryAdd(playerIp, entity.ToUserDto());
+        }
+        else if (entity.LastLogged < DateTime.UtcNow.AddMonths(-1))
+        {
+            entity.LastLogged = DateTime.UtcNow;
+        }
+        
+        await userContext.SaveChangesAsync();
+    }
+    
 }

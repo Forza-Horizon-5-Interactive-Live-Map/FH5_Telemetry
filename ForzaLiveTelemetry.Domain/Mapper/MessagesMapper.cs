@@ -10,6 +10,7 @@ public static class MessagesMapper
         return new MessageDTO()
         {
             Id = message.PlayerName+info.Model+info.Maker,
+            Ip = message.Ip,
             PlayerName = message.PlayerName,
             IsPaused = message.IsRaceOn == 0,
             IsDisconnecting = DateTime.UtcNow - message.ReceivedTime > TimeSpan.FromSeconds(5),

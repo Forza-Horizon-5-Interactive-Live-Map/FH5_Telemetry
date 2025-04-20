@@ -25,8 +25,9 @@ public class MessagesService
         return lastMessages.Values.ToList();
     }
 
-    public void AddMessage(Message message)
+    public async Task AddMessage(Message message)
     {
+        _userService.AddPlayerOrUpdate(message.Ip);
         lastMessages.AddOrUpdate(message.Ip, message, (ip, m) => message.IsRaceOn == 1 ? message : m);
         if (message.IsRaceOn == 0)
         {

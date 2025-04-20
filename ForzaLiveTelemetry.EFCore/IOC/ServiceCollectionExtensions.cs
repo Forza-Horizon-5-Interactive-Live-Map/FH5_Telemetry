@@ -11,7 +11,6 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<UserContext>(options =>
              options.UseSqlServer(
                 connectionString == "DOCKER_CONNECTION_STRING" ? Environment.GetEnvironmentVariable("CONNECTION_STRING") : connectionString
-                //x => x.MigrationsAssembly(typeof(UserContext).Assembly.FullName)
                 ), ServiceLifetime.Scoped);
     }
 
