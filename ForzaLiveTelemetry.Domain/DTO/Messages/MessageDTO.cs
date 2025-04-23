@@ -20,8 +20,11 @@ public class MessageDTO
     public string GAccelerationDisplay => $"{DisplayMethods.PrintFloat(GAcceleration, "0.0", false)} G";
 
     public float Yaw { get; set; }
+    public double Yaw360 => Yaw * 180 / Math.PI;
     public float Pitch { get; set; }
+    public double Pitch360 => Pitch * 180 / Math.PI;
     public float Roll { get; set; }
+    public double Roll360 => Roll * 180 / Math.PI;
 
     // computed position for map
     public float Lat => Constantes.LocalisationMapCenterLat + PosZ / Constantes.LocalisationRatio;

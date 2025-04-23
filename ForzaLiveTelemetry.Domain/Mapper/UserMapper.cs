@@ -1,5 +1,5 @@
 ﻿using ForzaLiveTelemetry.Domain.DTO.User;
-using ForzaLiveTelemetry.Domain.Entity;
+using ForzaLiveTelemetry.EFCore.Entity;
 
 namespace ForzaLiveTelemetry.Domain.Mapper;
 public static class UserMapper
