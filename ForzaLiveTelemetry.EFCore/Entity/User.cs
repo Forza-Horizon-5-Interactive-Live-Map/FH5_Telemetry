@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace ForzaLiveTelemetry.Domain.Entity;
+﻿namespace ForzaLiveTelemetry.EFCore.Entity;
 public class User
 {
     public User()

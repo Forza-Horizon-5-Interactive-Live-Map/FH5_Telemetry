@@ -1,5 +1,4 @@
-﻿using ForzaLiveTelemetry.Domain.Entity;
-using ForzaLiveTelemetry.Domain.Helper;
+﻿using ForzaLiveTelemetry.Domain.Helper;
 using ForzaLiveTelemetry.Domain.Setting;
 using ForzaLiveTelemetry.EFCore;
 using ForzaLiveTelemetry.Services;

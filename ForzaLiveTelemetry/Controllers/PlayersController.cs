@@ -1,6 +1,6 @@
 ﻿using ForzaLiveTelemetry.Domain.DTO.User;
-using ForzaLiveTelemetry.Domain.Entity;
 using ForzaLiveTelemetry.EFCore;
+using ForzaLiveTelemetry.EFCore.Entity;
 using ForzaLiveTelemetry.EFCore.IOC;
 using ForzaLiveTelemetry.Services;
 using Microsoft.AspNetCore.Identity;
