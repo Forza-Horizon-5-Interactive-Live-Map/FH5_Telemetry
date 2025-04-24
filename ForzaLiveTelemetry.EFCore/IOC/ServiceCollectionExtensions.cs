@@ -21,7 +21,7 @@ public static class ServiceCollectionExtensions
             }
             else
             {
-                options.UseSqlServer(
+                options.UseNpgsql(
                     connectionString, x => x.MigrationsAssembly(typeof(UserContext).Assembly.FullName)
                 );
             }
