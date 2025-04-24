@@ -3,16 +3,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ForzaLiveTelemetry.EFCore.IOC;
+
 public static class ServiceCollectionExtensions
 {
     public static void AddDbContext(this IServiceCollection services, ConfigurationManager configuration)
     {
-        
         bool useInMemory = Convert.ToBoolean(configuration["UseInMemory"]);
-        string connectionString = configuration.GetConnectionString("LiveMapSQL")
-                                  ?? configuration["CONNECTION_STRING"]
-                                  ?? throw new ArgumentNullException("CONNECTION_STRING");
-        
+
         services.AddDbContext<UserContext>(options =>
         {
             if (useInMemory)
@@ -21,6 +18,12 @@ public static class ServiceCollectionExtensions
             }
             else
             {
+                string connectionString = configuration.GetConnectionString("LiveMapSQL")
+                                          ?? configuration["CONNECTION_STRING"]
+                                          ?? throw new ArgumentNullException("CONNECTION_STRING");
+
+                Console.WriteLine(connectionString);
+
                 options.UseNpgsql(
                     connectionString, x => x.MigrationsAssembly(typeof(UserContext).Assembly.FullName)
                 );
