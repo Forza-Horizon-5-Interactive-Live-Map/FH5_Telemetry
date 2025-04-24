@@ -14,30 +14,20 @@ public class UserService
     private static ConcurrentDictionary<string, UserDto> players = new();
     private readonly IConfiguration _config;
     private readonly Faker _faker = new Faker();
-    public UserService(IConfiguration config)
+    private readonly UserContext _userContext;
+    public UserService(IConfiguration config, UserContext userContext)
     {
-        _config = config ?? throw new ArgumentNullException(nameof(config));
+        _userContext = userContext;
+        _config = config;
     }
 
-    private DbContextOptions<UserContext> GetOptions()
-    {
-        DbContextOptionsBuilder<UserContext> optionsBuilder = new DbContextOptionsBuilder<UserContext>();
-        string? connectionString = _config.GetConnectionString("LiveMapSQL");
-
-        if (connectionString == "DOCKER_CONNECTION_STRING")
-            connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-        optionsBuilder.UseSqlServer(connectionString);
-
-        return optionsBuilder.Options;
-    }
 
     public async Task<List<UserDto>> GetPlayerListAsync()
     {
         if (DateTime.Now - _lastRealGet > TimeSpan.FromSeconds(5))
         {
-            using UserContext userContext = new(GetOptions());
 
-            List<User> entities = await userContext.Users.ToListAsync();
+            List<User> entities = await _userContext.Users.ToListAsync();
 
             players.Clear();
             foreach (User entity in entities)
@@ -55,8 +45,7 @@ public class UserService
     public async Task AddPlayerOrUpdate(string playerIp)
     {
 
-        using UserContext userContext = new(GetOptions());
-        User entity = userContext.Users.FirstOrDefault(u => u.IPv4 == playerIp);
+        User entity = _userContext.Users.FirstOrDefault(u => u.IPv4 == playerIp);
         if (entity is null)
         {
             entity = new User
@@ -65,7 +54,7 @@ public class UserService
                 UserName = _faker.Internet.UserName(),
                 LastSeen = DateTime.UtcNow,
             };
-            await userContext.Users.AddAsync(entity);
+            await _userContext.Users.AddAsync(entity);
             players.TryAdd(playerIp, entity.ToUserDto());
         }
         else if (entity.LastSeen < DateTime.UtcNow.AddMonths(-1))
@@ -73,7 +62,7 @@ public class UserService
             entity.LastSeen = DateTime.UtcNow;
         }
         
-        await userContext.SaveChangesAsync();
+        await _userContext.SaveChangesAsync();
     }
     
 }

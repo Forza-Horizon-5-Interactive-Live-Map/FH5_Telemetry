@@ -7,11 +7,25 @@ public static class ServiceCollectionExtensions
 {
     public static void AddDbContext(this IServiceCollection services, ConfigurationManager configuration)
     {
-        string connectionString = configuration.GetConnectionString("LiveMapSQL");
+        
+        bool useInMemory = Convert.ToBoolean(configuration["UseInMemory"]);
+        string connectionString = configuration.GetConnectionString("LiveMapSQL")
+                                  ?? configuration["CONNECTION_STRING"]
+                                  ?? throw new ArgumentNullException("CONNECTION_STRING");
+        
         services.AddDbContext<UserContext>(options =>
-             options.UseSqlServer(
-                connectionString == "DOCKER_CONNECTION_STRING" ? Environment.GetEnvironmentVariable("CONNECTION_STRING") : connectionString, x => x.MigrationsAssembly(typeof(UserContext).Assembly.FullName)
-                ), ServiceLifetime.Scoped);
+        {
+            if (useInMemory)
+            {
+                options.UseInMemoryDatabase("LiveMap");
+            }
+            else
+            {
+                options.UseSqlServer(
+                    connectionString, x => x.MigrationsAssembly(typeof(UserContext).Assembly.FullName)
+                );
+            }
+        }, ServiceLifetime.Singleton);
     }
 
     public static void ApplyMigration(this IServiceProvider services)

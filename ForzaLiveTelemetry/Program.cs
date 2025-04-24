@@ -6,8 +6,11 @@ using ForzaLiveTelemetry.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+// Set the configuration 
+builder.AddConfiguration();
+
 // Add services to the container.
-builder.Services.AddServices(builder.Configuration);
+builder.Services.AddServices();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

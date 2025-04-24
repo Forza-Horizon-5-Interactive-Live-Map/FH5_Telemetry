@@ -8,10 +8,20 @@ namespace ForzaLiveTelemetry.Extension;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddServices(this IServiceCollection services, ConfigurationManager configuration)
+    public static void AddConfiguration(this WebApplicationBuilder builder)
     {
-        services.AddSingleton(configuration.GetSection("Settings").Get<Settings>())
-            .AddSingleton<MessagesService>()
+        builder.Configuration
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true,
+                reloadOnChange: true)
+            .AddEnvironmentVariables();
+        
+        builder.Services.AddSingleton(builder.Configuration.GetSection("Settings").Get<Settings>());
+
+    }
+    public static void AddServices(this IServiceCollection services)
+    {
+        services.AddSingleton<MessagesService>()
             .AddSingleton<TelemetryListener>()
             .AddSingleton<CarNamesService>()
             .AddSingleton<MapUpdatesService>()
