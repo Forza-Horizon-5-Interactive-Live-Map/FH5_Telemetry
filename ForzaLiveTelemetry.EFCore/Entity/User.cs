@@ -3,7 +3,7 @@ public class User
 {
     public User()
     {
-        LastSeen = DateTime.UtcNow;
+        LastSeen = DateTime.Now;
     }
 
     public Guid Id { get; set; }

@@ -400,3 +400,5 @@ FodyWeavers.xsd
 out/
 
 ForzaLiveTelemetry/.idea/
+
+.containers/db_data/

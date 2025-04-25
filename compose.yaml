@@ -1,59 +1,37 @@
-﻿services:
-  database:
-    container_name: database
-    restart: unless-stopped
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=MySecretVeryStrongPassword!
-    ports:
-      - name: Database
-        host_ip: 127.0.0.1
-        target: 1433
-        published: 1433
-        protocol: tcp
-        mode: host
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    #      Store les data dans un dossier local
-    #      - ./.containers/db_data:/var/lib/postgresql/data
-    networks:
-      - forzalivetelemetry
-  #  database:
-  #    container_name: database
-  #    restart: unless-stopped
-  #    image: postgres:latest
-  #    environment:
-  #      POSTGRES_USER: postgres
-  #      POSTGRES_PASSWORD: MySecretVeryStrongPassword!
-  #      POSTGRES_DB: livemap
-  #    ports:
-  #      - name: Database
-  #        host_ip: 127.0.0.1
-  #        target: 5432
-  #        published: 5432
-  #        protocol: tcp
-  #        mode: host
-  #    volumes:
-  #      - db_data:/var/lib/postgresql/data
-  #    #      Store les data dans un dossier local
-  #    #      - ./.containers/db_data:/var/lib/postgresql/data
-  #    networks:
-  #      - forzalivetelemetry
+﻿name: ForzaLiveTelemetry
+services:
+  Database:
+      container_name: Database
+      restart: unless-stopped
+      image: postgres:latest
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: MySecretVeryStrongPassword123!
+        POSTGRES_DB: LiveMap
+      ports:
+        - name: Database
+          host_ip: 127.0.0.1
+          published: 5432
+          target: 5432
+          protocol: tcp
+          mode: host
+      volumes:
+        - db_data:/var/lib/postgresql/data
+      networks:
+        - forzalivetelemetry
   
   API:
     container_name: API
     depends_on:
-      database:
+      Database:
         condition: service_started
         restart: false
-    image: forzaliveapi
+    image: forzalive/api
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      CONNECTION_STRING: 'Host=database;Port=5432;Database=livemap;Username=postgres;Password=MySecretVeryStrongPassword!;Include Error Detail=true'
     ports:
       - name: WebSocket
         host_ip: 127.0.0.1
@@ -67,7 +45,6 @@
         published: 5690
         protocol: udp
         mode: host
-    
     networks:
       - forzalivetelemetry
 

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ForzaLiveTelemetry.EFCore.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20250424230631_Initial")]
+    [Migration("20250425065340_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -37,8 +37,8 @@ namespace ForzaLiveTelemetry.EFCore.Migrations
 
                     b.Property<DateTime>("LastSeen")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 4, 25, 1, 6, 31, 266, DateTimeKind.Local).AddTicks(933));
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2025, 4, 25, 8, 53, 40, 299, DateTimeKind.Local).AddTicks(4164));
 
                     b.Property<string>("UserName")
                         .IsRequired()

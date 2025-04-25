@@ -24,7 +24,7 @@ public class UserContext : DbContext
             u.HasKey(u => u.Id);
             u.Property(u => u.UserName).IsRequired().HasMaxLength(50);
             u.Property(u => u.IPv4).IsRequired(true);
-            u.Property(u => u.LastSeen).IsRequired().HasDefaultValue(DateTime.Now);
+            u.Property(u => u.LastSeen).HasColumnType("timestamp without time zone").IsRequired().HasDefaultValue(DateTime.Now);
         });
     }
 

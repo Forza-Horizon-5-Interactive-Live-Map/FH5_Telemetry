@@ -18,7 +18,7 @@ namespace ForzaLiveTelemetry.EFCore.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     IPv4 = table.Column<string>(type: "text", nullable: false),
-                    LastSeen = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 4, 25, 1, 6, 31, 266, DateTimeKind.Local).AddTicks(933))
+                    LastSeen = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2025, 4, 25, 8, 53, 40, 299, DateTimeKind.Local).AddTicks(4164))
                 },
                 constraints: table =>
                 {
