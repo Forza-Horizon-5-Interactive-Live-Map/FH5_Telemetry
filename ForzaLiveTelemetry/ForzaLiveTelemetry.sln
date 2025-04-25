@@ -8,11 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		..\.github\workflows\DeployApi.yml = ..\.github\workflows\DeployApi.yml
-		..\compose.yaml = ..\compose.yaml
-		..\Dockerfile = ..\Dockerfile
-		..\Dockerfile.production = ..\Dockerfile.production
-		..\.dockerignore = ..\.dockerignore
-		..\Dockerfile.dev = ..\Dockerfile.dev
+		..\DevOps\.dockerignore = ..\DevOps\.dockerignore
+		..\DevOps\compose.yaml = ..\DevOps\compose.yaml
+		..\DevOps\Dockerfile = ..\DevOps\Dockerfile
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForzaLiveTelemetry.EFCore", "..\ForzaLiveTelemetry.EFCore\ForzaLiveTelemetry.EFCore.csproj", "{25BC18E0-E42D-4603-A412-AE499E23EFDB}"
