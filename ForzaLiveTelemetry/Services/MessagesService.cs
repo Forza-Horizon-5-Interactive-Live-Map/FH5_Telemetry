@@ -18,7 +18,7 @@ public class MessagesService
 
         foreach (Message message in messages)
         {
-            UserDto? player = playerList.FirstOrDefault(p => p.IPv4 == message.Ip);
+            UserDto? player = playerList.FirstOrDefault(p => p.Ipv4 == message.Ip);
             if (player is not null)
                 message.PlayerName = player.UserName;
         }
