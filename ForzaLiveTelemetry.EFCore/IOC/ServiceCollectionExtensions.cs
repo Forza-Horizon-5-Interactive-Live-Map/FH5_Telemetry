@@ -3,16 +3,32 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ForzaLiveTelemetry.EFCore.IOC;
+
 public static class ServiceCollectionExtensions
 {
-    public static void AddLiveMapDb(this IServiceCollection services, ConfigurationManager configuration)
+    public static void AddDbContext(this IServiceCollection services, ConfigurationManager configuration)
     {
-        string connectionString = configuration.GetConnectionString("LiveMapSQL");
+        bool useInMemory = Convert.ToBoolean(configuration["UseInMemory"]);
+
         services.AddDbContext<UserContext>(options =>
-             options.UseSqlServer(
-                connectionString == "DOCKER_CONNECTION_STRING" ? Environment.GetEnvironmentVariable("CONNECTION_STRING") : connectionString
-                //x => x.MigrationsAssembly(typeof(UserContext).Assembly.FullName)
-                ), ServiceLifetime.Scoped);
+        {
+            if (useInMemory)
+            {
+                options.UseInMemoryDatabase("LiveMap");
+            }
+            else
+            {
+                string connectionString = configuration.GetConnectionString("LiveMapSQL")
+                                          ?? configuration["CONNECTION_STRING"]
+                                          ?? throw new ArgumentNullException("CONNECTION_STRING");
+
+                Console.WriteLine(connectionString);
+
+                options.UseNpgsql(
+                    connectionString, x => x.MigrationsAssembly(typeof(UserContext).Assembly.FullName)
+                );
+            }
+        }, ServiceLifetime.Singleton);
     }
 
     public static void ApplyMigration(this IServiceProvider services)

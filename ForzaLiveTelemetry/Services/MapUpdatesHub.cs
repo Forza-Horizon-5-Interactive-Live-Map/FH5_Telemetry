@@ -13,6 +13,7 @@ public class MapUpdatesHub : Hub
 
     public override async Task OnConnectedAsync()
     {
+        _logger.LogInformation("Client connected : {Client}", Context.ConnectionId);
         await Groups.AddToGroupAsync(Context.ConnectionId, "MapUpdates");
     }
 

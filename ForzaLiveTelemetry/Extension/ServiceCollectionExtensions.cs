@@ -1,5 +1,4 @@
-﻿using ForzaLiveTelemetry.Domain.Entity;
-using ForzaLiveTelemetry.Domain.Helper;
+﻿using ForzaLiveTelemetry.Domain.Helper;
 using ForzaLiveTelemetry.Domain.Setting;
 using ForzaLiveTelemetry.EFCore;
 using ForzaLiveTelemetry.Services;
@@ -9,11 +8,20 @@ namespace ForzaLiveTelemetry.Extension;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddServices(this IServiceCollection services, ConfigurationManager configuration)
+    public static void AddConfiguration(this WebApplicationBuilder builder)
     {
-        services.AddSingleton(configuration.GetSection("Settings").Get<Settings>())
-            .AddSingleton<MessagesService>()
-            .AddSingleton<PlayersService>()
+        builder.Configuration
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true,
+                reloadOnChange: true)
+            .AddEnvironmentVariables();
+        
+        builder.Services.AddSingleton(builder.Configuration.GetSection("Settings").Get<Settings>());
+
+    }
+    public static void AddServices(this IServiceCollection services)
+    {
+        services.AddSingleton<MessagesService>()
             .AddSingleton<TelemetryListener>()
             .AddSingleton<CarNamesService>()
             .AddSingleton<MapUpdatesService>()
@@ -45,47 +53,5 @@ public static class ServiceCollectionExtensions
         TextLogger logger = new();
         services.AddSingleton<ILogger>(logger);
         return logger;
-    }
-    public static void ConfigureIdentity(this IServiceCollection services)
-    {
-        services.AddIdentity<User, IdentityRole<Guid>>(options =>
-        {
-            options.SignIn.RequireConfirmedAccount = false;
-
-            options.ClaimsIdentity.RoleClaimType = "Roles";
-            options.ClaimsIdentity.UserIdClaimType = "Username";
-
-            //Password requirement
-            options.Password.RequireDigit = true;
-            options.Password.RequireLowercase = true;
-            options.Password.RequireUppercase = true;
-            options.Password.RequireNonAlphanumeric = true;
-            options.Password.RequiredLength = 8;
-            options.Password.RequiredUniqueChars = 4; //Determine le nombre de caract�re unnique minimum requis
-
-
-            //Lockout si mdp fail 5 fois alors compte bloquer 60 min
-            options.Lockout.MaxFailedAccessAttempts = 5;
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
-            options.Lockout.AllowedForNewUsers = true;
-
-            //User
-            options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            options.User.RequireUniqueEmail = false;
-        })
-        .AddDefaultTokenProviders()
-        .AddRoles<IdentityRole<Guid>>()
-        .AddEntityFrameworkStores<UserContext>();
-
-
-        services.ConfigureApplicationCookie(options =>
-        {
-            options.Events.OnRedirectToLogin = context =>
-            {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                return Task.CompletedTask;
-            };
-        });
-
     }
 }

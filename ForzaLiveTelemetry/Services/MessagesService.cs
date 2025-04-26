@@ -18,15 +18,16 @@ public class MessagesService
 
         foreach (Message message in messages)
         {
-            UserDto? player = playerList.FirstOrDefault(p => p.IPv4 == message.Ip);
+            UserDto? player = playerList.FirstOrDefault(p => p.Ipv4 == message.Ip);
             if (player is not null)
                 message.PlayerName = player.UserName;
         }
         return lastMessages.Values.ToList();
     }
 
-    public void AddMessage(Message message)
+    public async Task AddMessage(Message message)
     {
+        _userService.AddPlayerOrUpdate(message.Ip);
         lastMessages.AddOrUpdate(message.Ip, message, (ip, m) => message.IsRaceOn == 1 ? message : m);
         if (message.IsRaceOn == 0)
         {
